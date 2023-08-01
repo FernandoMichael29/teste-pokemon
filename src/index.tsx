@@ -1,14 +1,12 @@
-import 'reflect-metadata'
+import 'reflect-metadata';
 import React from 'react';
-import ReactDOM from 'react-dom';
 import { App } from './App';
-import { RecoilRoot } from 'recoil';
+import { createRoot } from 'react-dom/client';
 
-ReactDOM.render(
+const root = createRoot(document.getElementById('root') as HTMLElement);
+
+root.render(
   <React.StrictMode>
-    <RecoilRoot>
-      <App />
-    </RecoilRoot>
-  </React.StrictMode>,
-  document.getElementById('root')
+    <App />
+  </React.StrictMode>
 );
