@@ -1,3 +1,4 @@
+import { ToastContainer } from 'react-toastify';
 import { GlobalStyle } from './css';
 import { Rotas } from './routes';
 import { Theme } from './themes';
@@ -15,6 +16,7 @@ export const App = () => {
         />
       </Helmet>
       <GlobalStyle />
+      <ToastContainer position="top-right" closeOnClick pauseOnHover />
       <Rotas />
     </Theme>
   </>
