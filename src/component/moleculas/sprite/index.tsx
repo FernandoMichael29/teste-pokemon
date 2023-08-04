@@ -10,7 +10,6 @@ interface IProps {
 interface PokemonDetalhes {
   front_default: string;
   types: { slot: number; type: { name: string; url: string } }[];
-  // back_default: string;
 }
 
 export const Sprite: React.FC<IProps> = (props) => {
@@ -40,22 +39,22 @@ export const Sprite: React.FC<IProps> = (props) => {
 
   const fontColor: { [key: string]: string } = {
     bug: "softpurple",
-    dark: "#131313",
-    dragon: "#62cad9",
-    eletric: "#fafa72",
+    dark: "softpurple",
+    dragon: "black",
+    eletric: "black",
     fairy: "softpurple",
     fighting: "black",
     fire: "softpurple",
     flying: "black",
-    ghost: "#906791",
+    ghost: "softpurple",
     grass: "black",
     ground: "softpurple",
-    ice: "#d8f0fa",
+    ice: "black",
     normal: "black",
     poison: "softpurple",
-    psychic: "#f71d92",
-    rock: "#8b3d21",
-    steel: "#43bc94",
+    psychic: "softpurple",
+    rock: "softpurple",
+    steel: "softpurple",
     water: "softpurple",
     // adicione mais tipos e suas cores aqui
   };
@@ -73,7 +72,7 @@ export const Sprite: React.FC<IProps> = (props) => {
       }
     };
     fetchDetailedPokemon();
-  }, []);
+  }, [props.pokemon]);
 
   return (
     <>
@@ -101,6 +100,7 @@ export const Sprite: React.FC<IProps> = (props) => {
             position="relative"
             margin="0 3px"
             padding="3px 0"
+            borderRadius="5px"
           >
             <Text key={key} color={fontColor[typeData.type.name]}>
               {typeData.type.name}
