@@ -6,6 +6,7 @@ import { PokemonCard } from "../../component/moleculas/pokemonCard";
 import { Button, Stack, TextField } from "@mui/material";
 import { toast } from "react-toastify";
 import { ScrollToTopButton } from "../../component/moleculas/scrollToTop";
+import { StyleSheetManager } from "styled-components";
 
 interface Pokemon {
   name: string;
@@ -65,60 +66,76 @@ export const Home: React.FC = () => {
 
   return (
     <>
-      <Body
-        bg="softpurple"
-        width="100%"
-        minHeight="100vh"
-        display="flex"
-        alignItems="center"
-        justifyContent="center"
-        position="relative"
-        flexDirection="column"
+      <StyleSheetManager
+        shouldForwardProp={(prop) =>
+          prop !== "minWidth" &&
+          prop !== "flexDirection" &&
+          prop !== "marginX" &&
+          prop !== "justifyContent" &&
+          prop !== "alignItems" &&
+          prop !== "minHeight" &&
+          prop !== "marginY" &&
+          prop !== "zIndex" &&
+          prop !== "borderRadius" &&
+          prop !== "paddingBottom" &&
+          prop !== "marginBottom"
+        }
       >
-        <Box
-          display="flex"
-          flexDirection="row"
-          justifyContent="center"
-          mt="20px"
+        <Body
+          bg="softpurple"
           width="100%"
-        >
-          <Box display="flex" flexDirection="row" marginX="10px">
-            <Stack direction="row" spacing={2}>
-              <TextField
-                label="Procurar Pokemon"
-                variant="outlined"
-                value={searchPokemon}
-                onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                  setSearchPokemon(event.currentTarget.value.toLowerCase());
-                }}
-              />
-              <Button variant="outlined" onClick={catchPokemon}>
-                Buscar
-              </Button>
-              <Button variant="outlined" onClick={cleanFilter} color="error">
-                Limpar
-              </Button>
-            </Stack>
-          </Box>
-        </Box>
-
-        <Box
+          minHeight="100vh"
           display="flex"
-          alignItems="flex-start"
+          alignItems="center"
           justifyContent="center"
           position="relative"
-          width="80%"
-          minHeight="100vh"
-          marginY="50px"
+          flexDirection="column"
         >
-          <PokemonCard
-            pokemonList={pokemonList}
-            chosenPokemon={chosenPokemon}
-          />
-        </Box>
+          <Box
+            display="flex"
+            flexDirection="row"
+            justifyContent="center"
+            mt="20px"
+            width="100%"
+          >
+            <Box display="flex" flexDirection="row" marginX="10px">
+              <Stack direction="row" spacing={2}>
+                <TextField
+                  label="Procurar Pokemon"
+                  variant="outlined"
+                  value={searchPokemon}
+                  onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                    setSearchPokemon(event.currentTarget.value.toLowerCase());
+                  }}
+                />
+                <Button variant="outlined" onClick={catchPokemon}>
+                  Buscar
+                </Button>
+                <Button variant="outlined" onClick={cleanFilter} color="error">
+                  Limpar
+                </Button>
+              </Stack>
+            </Box>
+          </Box>
 
-        <ScrollToTopButton />
-      </Body>
+          <Box
+            display="flex"
+            alignItems="flex-start"
+            justifyContent="center"
+            position="relative"
+            width="80%"
+            minHeight="100vh"
+            marginY="50px"
+          >
+            <PokemonCard
+              pokemonList={pokemonList}
+              chosenPokemon={chosenPokemon}
+            />
+          </Box>
+
+          <ScrollToTopButton />
+        </Body>
+      </StyleSheetManager>
     </>
   );
 };
