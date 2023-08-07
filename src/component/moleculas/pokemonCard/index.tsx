@@ -29,8 +29,6 @@ export const PokemonCard: React.FC<IProps> = (props) => {
     return storedFavoritos ? JSON.parse(storedFavoritos) : {};
   });
 
-  console.log(favoritos);
-
   const [open, setOpen] = useState(false);
   const handleOpen = (pokeModalInfo?: string) => {
     setOpen(true);
