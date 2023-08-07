@@ -18,10 +18,16 @@ export const Home: React.FC = () => {
   const [chosenPokemon, setChosenPokemon] = useState("");
   const [itensPerPage, setItensPerPage] = useState(20); // itens por paginas
   const [searchPokemon, setSearchPokemon] = useState(""); // armazena pokemon filtrado
+  const [showFavoritos, setShowFavoritos] = useState(false); //mostra os pokemons favoritos
 
   const cleanFilter = () => {
     setChosenPokemon("");
     setSearchPokemon("");
+    setShowFavoritos(false);
+  };
+
+  const handleShowFavoritos = () => {
+    setShowFavoritos((prevState) => !prevState);
   };
 
   const catchPokemon = async () => {
@@ -78,6 +84,7 @@ export const Home: React.FC = () => {
           prop !== "zIndex" &&
           prop !== "borderRadius" &&
           prop !== "paddingBottom" &&
+          prop !== "boxShadow" &&
           prop !== "marginBottom"
         }
       >
@@ -100,6 +107,9 @@ export const Home: React.FC = () => {
           >
             <Box display="flex" flexDirection="row" marginX="10px">
               <Stack direction="row" spacing={2}>
+                <Button variant="outlined" onClick={handleShowFavoritos}>
+                  Favoritos
+                </Button>
                 <TextField
                   label="Procurar Pokemon"
                   variant="outlined"
@@ -130,6 +140,7 @@ export const Home: React.FC = () => {
             <PokemonCard
               pokemonList={pokemonList}
               chosenPokemon={chosenPokemon}
+              showFavoritos={showFavoritos}
             />
           </Box>
 

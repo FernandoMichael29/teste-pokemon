@@ -92,6 +92,7 @@ export const Sprite: React.FC<IProps> = (props) => {
       >
         {detailedPokemonList?.types.map((typeData, key) => (
           <Box
+            key={key}
             minWidth="70px" 
             bg={typeColors[typeData.type.name]}
             display="flex"
@@ -102,7 +103,7 @@ export const Sprite: React.FC<IProps> = (props) => {
             padding="3px 0"
             borderRadius="5px"
           >
-            <Text key={key} color={fontColor[typeData.type.name]}>
+            <Text color={fontColor[typeData.type.name]}>
               {typeData.type.name}
             </Text>
           </Box>

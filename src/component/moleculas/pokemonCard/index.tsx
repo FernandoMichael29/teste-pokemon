@@ -2,8 +2,9 @@ import { Box } from "../../atoms/box";
 import { Grid, Modal } from "@mui/material";
 import { Sprite } from "../sprite";
 import { Text } from "../../atoms/text";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { PokeInfo } from "../pokeInfo";
+import { StarFillIcon, StarIcon } from "../../../css/icons";
 
 interface Pokemon {
   name: string;
@@ -12,11 +13,23 @@ interface Pokemon {
 
 interface IProps {
   pokemonList: Pokemon[];
-  chosenPokemon?: string;
+  chosenPokemon: string;
+  showFavoritos: boolean;
+}
+
+interface Favoritos {
+  [key: string]: boolean;
 }
 
 export const PokemonCard: React.FC<IProps> = (props) => {
   const [pokeModal, setPokeModal] = useState<string | undefined>();
+  const [favoritos, setFavoritos] = useState<Favoritos>(() => {
+    // Recuperar a lista de favoritos do Local Storage ao carregar a página
+    const storedFavoritos = localStorage.getItem('favoritos');
+    return storedFavoritos ? JSON.parse(storedFavoritos) : {};
+  });
+
+  console.log(favoritos);
 
   const [open, setOpen] = useState(false);
   const handleOpen = (pokeModalInfo?: string) => {
@@ -24,6 +37,27 @@ export const PokemonCard: React.FC<IProps> = (props) => {
     setPokeModal(pokeModalInfo);
   };
   const handleClose = () => setOpen(false);
+
+  const pokemonStar = (pokemonName: string) =>{
+    setFavoritos((prevState) => {
+      const updatedFavoritos = { ...prevState };
+      if (prevState[pokemonName]) {
+        delete updatedFavoritos[pokemonName];
+      } else {
+        updatedFavoritos[pokemonName] = true;
+      }
+      return updatedFavoritos;
+    });
+  };
+
+  const filteredPokemonList = props.showFavoritos
+    ? props.pokemonList.filter((pokemon: Pokemon) => favoritos[pokemon.name])
+    : props.pokemonList;
+
+  useEffect(() => {
+    // Salvar a lista de favoritos no Local Storage sempre que ela for atualizada
+    localStorage.setItem('favoritos', JSON.stringify(favoritos));
+  }, [favoritos]);
 
   return (
     <>
@@ -47,12 +81,14 @@ export const PokemonCard: React.FC<IProps> = (props) => {
               <Sprite pokemon={props.chosenPokemon} />
               <Text marginBottom="10px">{props.chosenPokemon}</Text>
             </Box>
+            <Box cursor="pointer" onClick={() => pokemonStar(props.chosenPokemon)}>
+                {favoritos[props.chosenPokemon] ? <StarFillIcon color="#ffa500" /> : <StarIcon />}
+              </Box>
           </Grid>
         ) : (
-          props.pokemonList.map((pokemon, key) => (
-            <Grid item xs={3} display="flex" justifyContent="center">
+          filteredPokemonList.map((pokemon: Pokemon, key: number) => (
+            <Grid item xs={3} display="flex" justifyContent="center" key={key}>
               <Box
-                key={key}
                 cursor="pointer"
                 bg="neutral2"
                 width="200px"
@@ -70,10 +106,14 @@ export const PokemonCard: React.FC<IProps> = (props) => {
                 <Sprite pokemon={pokemon.name} />
                 <Text marginBottom="10px">{pokemon.name}</Text>
               </Box>
+              <Box cursor="pointer" onClick={() => pokemonStar(pokemon.name)}>
+                {favoritos[pokemon.name] ? <StarFillIcon color="#ffa500" /> : <StarIcon />}
+              </Box>
             </Grid>
           ))
         )}
       </Grid>
+
       <Modal
         open={open}
         onClose={handleClose}
