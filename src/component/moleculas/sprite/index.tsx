@@ -4,7 +4,7 @@ import { Box } from "../../atoms/box";
 import { Text } from "../../atoms/text";
 
 interface IProps {
-  pokemon: string;
+  pokemon?: string;
 }
 
 interface PokemonDetalhes {

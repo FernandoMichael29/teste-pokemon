@@ -13,6 +13,7 @@ export const ScrollToTopButton: React.FC = () => {
     <>
       <Box
         bg="#85a8fb"
+        cursor="pointer"
         width="30px"
         display="flex"
         justifyContent="center"

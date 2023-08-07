@@ -1,7 +1,9 @@
 import { Box } from "../../atoms/box";
-import { Grid } from "@mui/material";
+import { Grid, Modal } from "@mui/material";
 import { Sprite } from "../sprite";
 import { Text } from "../../atoms/text";
+import { useState } from "react";
+import { PokeInfo } from "../pokeInfo";
 
 interface Pokemon {
   name: string;
@@ -14,6 +16,15 @@ interface IProps {
 }
 
 export const PokemonCard: React.FC<IProps> = (props) => {
+  const [pokeModal, setPokeModal] = useState<string | undefined>();
+
+  const [open, setOpen] = useState(false);
+  const handleOpen = (pokeModalInfo?: string) => {
+    setOpen(true);
+    setPokeModal(pokeModalInfo);
+  };
+  const handleClose = () => setOpen(false);
+
   return (
     <>
       <Grid container spacing={1} marginBottom="20px" justifyContent="center">
@@ -31,6 +42,7 @@ export const PokemonCard: React.FC<IProps> = (props) => {
               flexDirection="column"
               marginBottom="20px"
               borderRadius="10px"
+              onClick={() => handleOpen(props.chosenPokemon)}
             >
               <Sprite pokemon={props.chosenPokemon} />
               <Text marginBottom="10px">{props.chosenPokemon}</Text>
@@ -41,6 +53,7 @@ export const PokemonCard: React.FC<IProps> = (props) => {
             <Grid item xs={3} display="flex" justifyContent="center">
               <Box
                 key={key}
+                cursor="pointer"
                 bg="neutral2"
                 width="200px"
                 height="220px"
@@ -52,6 +65,7 @@ export const PokemonCard: React.FC<IProps> = (props) => {
                 flexDirection="column"
                 marginBottom="20px"
                 borderRadius="10px"
+                onClick={() => handleOpen(pokemon.name)}
               >
                 <Sprite pokemon={pokemon.name} />
                 <Text marginBottom="10px">{pokemon.name}</Text>
@@ -60,6 +74,29 @@ export const PokemonCard: React.FC<IProps> = (props) => {
           ))
         )}
       </Grid>
+      <Modal
+        open={open}
+        onClose={handleClose}
+      >
+        <Box
+          padding="20px"
+          top="50%"
+          left="50%"
+          display="flex"
+          borderRadius="5px"
+          position="absolute"
+          alignItems="center"
+          flexDirection="column"
+          justifyContent="center"
+          bg="white"
+          width="800px"
+          height="600px"
+          transform="translate(-50%, -50%)"
+          boxShadow="0 4px 4px rgba(0, 0, 0, 0.25);"
+        >
+          <PokeInfo pokemon={pokeModal} />
+        </Box>
+      </Modal>
     </>
   );
 };

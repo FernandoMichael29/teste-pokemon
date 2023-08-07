@@ -53,6 +53,7 @@ type THover = {
   transform?: string;
   transition?: string;
   scrollBarWidth?: string;
+  cursor?: string;
 };
 
 export const Box = styled.div<
@@ -108,6 +109,7 @@ export const Box = styled.div<
     border-color: ${({ theme, itemhover }) => itemhover && `${theme.colors.primary}`};
     color: ${({ theme, itemhover }) => itemhover && `${theme.colors.primary}`};
     cursor: ${({ itemhover }) => itemhover && `pointer`};
+    cursor: ${({ cursor }) => cursor && `pointer`};
     background-color: ${({ theme, bghover }) => 
       bghover && (bghover === "primary" ? `${theme.colors.primary}` : `${theme.colors.secondary}`)
     };
